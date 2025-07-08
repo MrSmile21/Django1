@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Employee Analytics</title>
+        <script src="https://cdn.jsdeliver.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <h1>Employee Analytics</h1>
+        <canvas id="deptChart" width="400" height="200"></canvas>
+        <canvas id="attendanceChart" width="400" height="200"></canvas>
+        <script>
+            const deptData = {{ dept_data|safe}};
+            const attendanceData = {{ attendance_data|safe}};
+
+            new Chart(document.getElemntById('deptChart'), {
+                type: 'pie',
+                data: {
+                    labels: deptData.map(d => d.name),
+                    datasets: [{
+                        data: deptData.map(d => d.employee_count),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                    }]
+                },
+                options: { title: { display: true, text: 'Empployee per Department' } }
+            });
+
+            new Chart(document.getElementById('attendanceChart'), {
+                type: 'bar',
+                data: {
+                    labels: attendanceData.map(d => d.status),
+                    datasets: [{
+                        label: 'Attendance Count',
+                        data: attendanceData.map(d => d.count),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    }]
+                },
+                options: { title: { display: true, text: 'Monthly Attendance' } }
+            });
+        </script>
+    </body>
+</html>
